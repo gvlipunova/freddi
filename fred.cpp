@@ -306,7 +306,13 @@ int main(int ac, char *av[]){
 		} else{
 			throw po::invalid_option_value(bound_cond_type);
 		}
-		
+
+		if ( ii < Nx-1 ){
+			Nx = ii+1;
+			// F.at(Nx-2) = F.at(Nx-1) - Mdot_out / (2.*M_PI) * (h.at(Nx-1) - h.at(Nx-2));
+			h.resize(Nx);
+		}
+	
 		const double mB = -2.5 * log10( I_lambda(R, Tph, lambdaB) * cosiOverD2 / irr0B );
 		const double mV = -2.5 * log10( I_lambda(R, Tph, lambdaV) * cosiOverD2 / irr0V );
 		const double mR = -2.5 * log10( I_lambda(R, Tph, lambdaR) * cosiOverD2 / irr0R );
@@ -348,11 +354,6 @@ int main(int ac, char *av[]){
 				<< "\t" << mJ
 				<< endl;
 
-		if ( ii < Nx-1 ){
-			Nx = ii+1;
-			// F.at(Nx-2) = F.at(Nx-1) - Mdot_out / (2.*M_PI) * (h.at(Nx-1) - h.at(Nx-2));
-			h.resize(Nx);
-		}
 	}
 
 	delete oprel;
